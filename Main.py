@@ -1,60 +1,40 @@
 import gi
-gi.require_version('Gtk', '3.0')
+
 from gi.repository import Gtk
+gi.require_version("Gtk", "3.0")
 
 
-class ButtonWindow(Gtk.Window):
-    count = 1
-
+class MainWindow(Gtk.Window):
     def __init__(self):
-        super().__init__(title='Button Demo')
-        self.set_border_width(10)
-        count = 1
+        super().__init__(title="Remote UI")
 
-        hbox = Gtk.Box(spacing=6)
-        self.add(hbox)
+        box = Gtk.Box()
+        self.add(box)
 
-        new_button = Gtk.Button.new_with_label
+        self.ip_entry = Gtk.Entry()
+        self.ip_entry.set_text('169.254.123.123')
+        box.add(self.ip_entry)
 
-        button = new_button('Click Me')
-        button.connect('clicked', self.on_click_me_clicked)
-        hbox.pack_start(button, True, True, 0)
+        self.port_entry = Gtk.Entry()
+        self.port_entry.set_text('54321')
+        box.add(self.port_entry)
 
-        button = new_button('Open')
-        button.connect('clicked', self.on_open_clicked)
-        hbox.pack_start(button, True, True, 0)
+        get_ip_entry = Gtk.Button.new_with_label('Get IP')
+        get_ip_entry.connect('clicked', self.on_get_ip_entry)
+        box.add(get_ip_entry)
 
-        button = new_button('Test')
-        button.connect('clicked', self.on_test_clicked)
-        hbox.pack_start(button, True, True, 0)
+        get_port_entry = Gtk.Button.new_with_label('Get Port')
+        get_port_entry.connect('clicked', self.on_get_port_entry)
+        box.add(get_port_entry)
 
-        button = new_button('Count Up by 1')
-        button.connect('clicked', self.on_count_up_clicked)
-        hbox.pack_start(button, True, True, 0)
+    def on_get_ip_entry(self, button):
+        print(self.ip_entry.get_text())
 
-        button = new_button('Close')
-        button.connect('clicked', self.on_close_clicked)
-        hbox.pack_start(button, True, True, 0)
-
-    def on_click_me_clicked(self, button):
-        print('"Click" me button was clicked')
-
-    def on_open_clicked(self, button):
-        print('"Open" button was clicked')
-
-    def on_test_clicked(self, button):
-        print('"Test" button was clicked')
-
-    def on_count_up_clicked(self, button):
-        print(self.count)
-        self.count += 1
-
-    def on_close_clicked(self, button):
-        print('Closing application')
-        Gtk.main_quit()
+    def on_get_port_entry(self, button):
+        print(self.port_entry.get_text())
 
 
-win = ButtonWindow()
+win = MainWindow()
 win.connect("destroy", Gtk.main_quit)
 win.show_all()
 Gtk.main()
