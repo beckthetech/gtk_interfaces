@@ -1,4 +1,5 @@
 import gi
+import json
 
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
@@ -7,10 +8,11 @@ from gi.repository import Gtk
 class ButtonWindow(Gtk.Window):
     count = 1
 
-    def __init__(self):
+    def __init__(self, sock):
         super().__init__(title='Button Demo')
         self.set_border_width(10)
-        count = 1
+        self.sock = sock
+        self.count = 1
 
         hbox = Gtk.Box(spacing=6)
         self.add(hbox)
@@ -39,6 +41,13 @@ class ButtonWindow(Gtk.Window):
 
     def on_click_me_clicked(self, button):
         print('"Click" me button was clicked')
+        message = {
+            'message': 'This is the mssage.',
+            'count': self.count
+        }
+        data_string = json.dumps(message)
+        print(f'sending "{data_string}"')
+        self.sock.sendall(data_string.encode())
 
     def on_open_clicked(self, button):
         print('"Open" button was clicked')
@@ -52,10 +61,11 @@ class ButtonWindow(Gtk.Window):
 
     def on_close_clicked(self, button):
         print('Closing application')
+        self.sock.close()
         Gtk.main_quit()
 
 
-win = ButtonWindow()
-win.connect("destroy", Gtk.main_quit)
-win.show_all()
-Gtk.main()
+# win = ButtonWindow()
+# win.connect("destroy", Gtk.main_quit)
+# win.show_all()
+# Gtk.main()
