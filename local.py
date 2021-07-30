@@ -1,4 +1,5 @@
 import socket
+import json
 
 # Creates a TCP/IP socket
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -10,17 +11,19 @@ sock.bind(server_address)
 
 sock.listen(1)
 
-while True:
-    # Waits for a connection
-    print('waiting for a connection')
-    connection, client_address = sock.accept()
+# Waits for a connection
+print('waiting for a connection')
+connection, client_address = sock.accept()
 
+while True:
+
+    data = connection.recv(1024)
     try:
         print(f'connection from {client_address}')
+        loaded = json.loads(data)
+        print(f'received "{loaded}"')
 
-        data = connection.recv(1024)
-        print(f'received "{data}"')
-
-    finally:
+    except:
         # Cleans up the connection
+        print('connection close')
         connection.close()

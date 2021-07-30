@@ -1,4 +1,4 @@
-from button_demo import ButtonWindow
+from remote_ui import ButtonWindow
 from gi.repository import Gtk
 import socket
 import gi
@@ -14,20 +14,12 @@ server_address = ('localhost', 10000)
 print(f'connecting to {server_address[0]} port {server_address[1]}')
 sock.connect(server_address)
 
-try:
-    win = ButtonWindow(sock)
-    win.connect("destroy", Gtk.main_quit)
-    win.show_all()
-    Gtk.main()
-    # Sends data
-    # message = {
-    #     'message': 'This is the mssage. It will be repeated.',
-    #     'count': win.count
-    # }
-    # data_string = json.dumps(message)
-    # print(f'sending "{data_string}"')
-    # sock.sendall(data_string.encode())
+# try:
+win = ButtonWindow(sock)
+win.connect("destroy", Gtk.main_quit)
+win.show_all()
+Gtk.main()
 
-finally:
-    print('closing socket')
-    sock.close()
+# finally:
+    # print('closing socket')
+    # sock.close()
