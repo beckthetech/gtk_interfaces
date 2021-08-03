@@ -17,15 +17,19 @@ class ButtonWindow(Gtk.Window):
         hbox = Gtk.Box(spacing=6)
         self.add(hbox)
 
+        hscale = Gtk.HScale.new_with_range(-128, 127, 1)
+        hbox.pack_start(hscale, True, True, 0)
+
         new_button = Gtk.Button.new_with_label
-
-        button = new_button('send')
-        button.connect('clicked', self.on_send_clicked)
-        hbox.pack_start(button, True, True, 0)
-
+        
         button = new_button('Count Up by 1')
         button.connect('clicked', self.on_count_up_clicked)
         hbox.pack_start(button, True, True, 0)
+
+        button = new_button('Send')
+        button.connect('clicked', self.on_send_clicked)
+        hbox.pack_start(button, True, True, 0)
+
 
         button = new_button('Close')
         button.connect('clicked', self.on_close_clicked)
